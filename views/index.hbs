@@ -1,2 +1,24 @@
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<p>Welcome to {{title}}, please request a ride below.</p>
+
+<form>
+	Name: <br>
+	<input type="text" name="passenger_name"> <br>
+
+	Address: <br>
+	<input type="text" name="passenger_address"> <br>
+
+	Number of Passengers: <br>
+	<select name="num_passengers">
+		<option value="1"> 1 </option>
+		<option value="2"> 2 </option>
+		<option value="3"> 3 </option>
+		<option value="4"> 4 </option>
+		<option value="5"> 5 </option>
+	</select> <br>
+
+	Phone Number: (So we can message you when we arrive!) <br>
+	<input type="text" name="passenger_phone_num"> <br>
+
+	<input type="submit">
+</form>
