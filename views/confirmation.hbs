@@ -1,15 +1,11 @@
-<h1>We've confirmed your ride!</h1>
-You should receive a text at {{phone_number}} very soon.
-
-<p>
-	Here's the information we got: <br>
-	Name: {{name}} <br>
-	Address: {{address}} <br>
-	Number of Passengers: {{num_passengers}} <br>
-</p> 
+<div class="container">
+  <h1>Congratulations {{name}}!</h1>
+  <p>Your request for {{num_passengers}} people has been accepted into the queue.</p>
+  <p>We will send a short text message to {{phone_number}} soon about your position in the queue.</p>
+</div>
 
 
-
+<div class="container" id"maps_container">
   <head>
     <style>
       #map {
@@ -38,4 +34,4 @@ You should receive a text at {{phone_number}} very soon.
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe5Owcj0cRZ6QeR8XHsJOIdsTvvpTbuyU&callback=initMap">
     </script>
   </body>
- 
+</div>
