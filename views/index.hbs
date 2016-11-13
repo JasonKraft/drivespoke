@@ -52,11 +52,11 @@
         <form action="/confirmation" method="post">
 
         	<div class="col-md-6">
-                <input type="text" name="passenger_name" class="form-control" placeholder="First Name"> <br>
+                <input type="text" name="firstName" class="form-control" placeholder="First Name"> <br>
             </div>
 
             <div class="col-md-6">
-                <input type="text" name="passenger_name" class="form-control" placeholder="Last Name"> <br>
+                <input type="text" name="lastName" class="form-control" placeholder="Last Name"> <br>
             </div>
 
         	<div class="col-md-12">
@@ -64,11 +64,11 @@
             </div>
 
             <div class="form-group">
-                <label for="num_passengers" class="col-md-2 control-label">
+                <label for="groupSize" class="col-md-2 control-label">
                     Number of Passengers:
                 </label>
                 <div class="col-md-10">
-                	<select id="num_passengers" class="form-control"> 
+                	<select name="groupSize" id="groupSize" class="form-control">
                 		<option value="1"> 1 </option>
                 		<option value="2"> 2 </option>
                 		<option value="3"> 3 </option>
@@ -80,7 +80,7 @@
 
 
         	<div class="col-md-12">
-                <input type="text" name="passenger_phone_num" class="form-control" placeholder="Phone Number: (So we can message you when we arrive!)"> <br>
+                <input type="text" name="phone" class="form-control" placeholder="Phone Number: (So we can message you when we arrive!)"> <br>
             </div>
 
         	<div class="col-md-12">

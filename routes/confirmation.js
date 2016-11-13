@@ -5,7 +5,7 @@ var request = require('../models/requests');
 
 
 router.post('/', function(req, res, next) {
-
+	console.log(req.body);
 	requestApi('https://maps.googleapis.com/maps/api/geocode/json?address=' + req.body.address + '&key=AIzaSyCe5Owcj0cRZ6QeR8XHsJOIdsTvvpTbuyU',
 		function (error, response, body) {
 			if (error) {
@@ -19,11 +19,11 @@ router.post('/', function(req, res, next) {
 
 
 		var riderData = {
-			firstName: req.body.passenger_name,
-			lastName: req.body.passenger_name,
-			phone: req.body.passenger_phone_num,
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			phone: req.body.phone,
 			address: req.body.address,
-			groupSize: req.body.num_passengers,
+			groupSize: req.body.groupSize,
 			location: location
 		}
 
@@ -34,10 +34,10 @@ router.post('/', function(req, res, next) {
 
 			record.sendSmsNotification('Your request for a ride has been confirmed!'/*, getCallbackUri(req.headers.host, record)*/);
 			console.log(riderData);
-			res.render('confirmation', {phone_number:req.body.passenger_phone_num,
-										name:req.body.passenger_name,
+			res.render('confirmation', {phone_number:req.body.phone,
+										name:req.body.firstName + ' ' + req.body.lastName,
 										address: req.body.address,
-										num_passengers: req.body.num_passengers,
+										num_passengers: req.body.groupSize,
 										google_location: location
 			});
 		});

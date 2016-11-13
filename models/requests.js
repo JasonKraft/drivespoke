@@ -107,6 +107,8 @@ module.exports.create = function(riderData, cb) {
 		location: riderData.location
 	});
 
+	console.log(request);
+
 	request.save( function(err, record) {
 		cb(err, record);
 	});
