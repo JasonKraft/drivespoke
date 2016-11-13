@@ -97,5 +97,3 @@ module.exports.update = function(riderId, riderData) {
 		request.save(function(err){});
 	});
 }
-
-

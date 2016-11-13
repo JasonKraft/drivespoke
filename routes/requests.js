@@ -25,3 +25,8 @@ router.put('/:id', function(req, res, next) {
 })
 
 module.exports = router;
+module.exports.getAllRequests = function(){
+	requests.find( function(err, request){
+		return request;
+	});
+}
