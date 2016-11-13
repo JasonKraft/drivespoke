@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var usersSchema = new Schema ({
 	firstName: String,
@@ -14,4 +15,18 @@ var usersSchema = new Schema ({
 	isOnDuty: {type: Boolean, default: false}
 });
 
-mongoose.model('users', usersSchema);
+usersSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model('users', usersSchema);
+
+module.exports.create = function(userData) {
+
+};
+
+module.exports.delete = function(userId) {
+
+};
+
+module.exports.update = function(userData) {
+
+};
