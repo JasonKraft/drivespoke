@@ -1,12 +1,12 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}, please request a ride below.</p>
 
-<form>
+<form action="/confirmation" method="post">
 	Name: <br>
 	<input type="text" name="passenger_name"> <br>
 
 	Address: <br>
-	<input type="text" name="passenger_address"> <br>
+	<input type="text" name="address"> <br>
 
 	Number of Passengers: <br>
 	<select name="num_passengers">
