@@ -1,40 +1,54 @@
 <div class="row">
     <div class="col-xs-12">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="../">DriveSpoke</a>
-            </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../">DriveSpoke</a>
+                </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> Driver Management <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/logout">Logout</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> Driver Management <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/logout">Logout</a></li>
 
-                        </ul>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-</div>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
 </div>
 <div class = "row">
     <div class="col-xs-12">
         <div class="container-fluid">
-            <div class="row" id="requests-list">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a  href="#requests-list-cont" data-toggle="tab">Wait Queue</a>
+                </li>
+                <li>
+                    <a href="#my-car-cont" data-toggle="tab">My Car</a>
+                </li>
+            </ul>
 
+            <div class="tab-content">
+                <div class="container tab-pane active" id="requests-list-cont">
+                    <div class="row" id="requests-list"></div>
+                </div>
+                <div class="container tab-pane" id="my-car-cont">
+                    <div class="row" id="my-car"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -57,59 +71,137 @@
     </div>
 </div>
 
+<div class="modal fade" id="my-car-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="request-modal-label"></h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="ride-arrived" class="btn btn-primary">Mark as Arrived</button>
+                <button type="button" class="ride-picked" class="btn btn-primary">Mark Passenger as Picked Up</button>
+                <button type="button" class="ride-dropped" class="btn btn-primary">Mark Passenger as Dropped Off</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $(document).ready(function() {
-        var user = "{{ user._id }}";
-        var socket = io('//localhost:3000');
-        console.log('hello1');
-        //socket.emit('join', user);
-        socket.emit('get-requests', user, function(message) {
-            console.log(message);
-            $.each(message, function(requestidentifier) {
-                var request = message[requestidentifier];
-                var dateCreated = new Date(request.dateCreated);
-                var dateDiff = (new Date) - dateCreated;
-                var panelType = 'panel-defult';
-                if (dateDiff > 30 * 60000) {
-                    panelType = 'panel-danger';
-                } else if (dateDiff > 15 * 60000) {
-                    panelType = 'panel-warning';
-                } else {
-                    panelType = 'panel-success';
-                }
-                var elemString = '<dive class="col-md-3">\
-                <div data-toggle="modal" data-target="#request-modal" data-address="' + request.address + '" data-requestid="' + request._id + '" class="waitqueue-panel panel ' + panelType + '">\
-                <div class="panel-heading">' + request.address + '</div>\
-                <div class="panel-body">IMAGE HERE OF MAP</div>\
-                <div class="panel-footer">' + request.firstName + " " + request.lasName + '</div>\
-                </div>\
-                </div>';
-                $("#requests-list").append(elemString);
-            });
+$(document).ready(function() {
+    var user = "{{ user._id }}";
+    var socket = io('//localhost:3000');
+    console.log('hello1');
+    //socket.emit('join', user);
+    socket.emit('get-my-requests', user, function(message) {
+        $.each(message, function(requestidentifier) {
+            var request = message[requestidentifier];
 
-            // $('.waitqueue-panel').click(function() {
-            //     console.log($(this).data('requestid'));
-            // });
-        });
+            var elemString = '<div class="col-md-3">\
+            <div data-toggle="modal" data-target="#my-car-modal" data-address="' + request.address + '" data-requestid="' + request._id + '" class="mycarqueue-panel panel panel-default">\
+            <div class="panel-heading">' + request.address + '</div>\
+            <div class="panel-body">IMAGE HERE OF MAP</div>\
+            <div class="panel-footer">' + request.firstName + " " + request.lasName + '</div>\
+            </div>\
+            </div>';
 
-        $('#request-modal').on('show.bs.modal', function (event) {
-            var r = $(event.relatedTarget);
-            var rid = r.data('requestid');
-            var address = r.data('address');
-            var modal = $(this);
-            modal.find('.modal-title').text('Ride request at ' + address + '.');
-            modal.find('.modal-body').text(rid);
-            modal.find('.ride-accept').data('requestid', rid);
-        });
-
-        $('.ride-accept').click(function() {
-            var rid = $(this).data('requestid');
-            socket.emit('accept-ride', { uid: user, rid: rid }, function(err) {
-                if (!err) {
-                    $('#requests-list div[data-requestid="' + rid + '"]').parent().remove();
-                    $('#request-modal').modal('toggle');
-                }
-            });
+            $("#my-car").append(elemString);
         });
     });
+
+    socket.emit('get-requests', user, function(message) {
+        console.log(message);
+        $.each(message, function(requestidentifier) {
+            var request = message[requestidentifier];
+            var dateCreated = new Date(request.dateCreated);
+            var dateDiff = (new Date) - dateCreated;
+            var panelType = 'panel-defult';
+            if (dateDiff > 30 * 60000) {
+                panelType = 'panel-danger';
+            } else if (dateDiff > 15 * 60000) {
+                panelType = 'panel-warning';
+            } else {
+                panelType = 'panel-success';
+            }
+            var elemString = '<div class="col-md-3">\
+            <div data-toggle="modal" data-target="#request-modal" data-address="' + request.address + '" data-requestid="' + request._id + '" class="waitqueue-panel panel ' + panelType + '">\
+            <div class="panel-heading">' + request.address + '</div>\
+            <div class="panel-body">IMAGE HERE OF MAP</div>\
+            <div class="panel-footer">' + request.firstName + " " + request.lasName + '</div>\
+            </div>\
+            </div>';
+            $("#requests-list").append(elemString);
+        });
+
+        // $('.waitqueue-panel').click(function() {
+        //     console.log($(this).data('requestid'));
+        // });
+    });
+
+    $('#request-modal').on('show.bs.modal', function (event) {
+        var r = $(event.relatedTarget);
+        var rid = r.data('requestid');
+        var address = r.data('address');
+        var modal = $(this);
+        modal.find('.modal-title').text('Ride request at ' + address + '.');
+        modal.find('.modal-body').text(rid);
+        modal.find('.ride-accept').data('requestid', rid);
+    });
+
+    $('#my-car-modal').on('show.bs.modal', function (event) {
+        var r = $(event.relatedTarget);
+        var rid = r.data('requestid');
+        var address = r.data('address');
+        var modal = $(this);
+        modal.find('.modal-title').text('Ride request at ' + address + '.');
+        modal.find('.modal-body').text(rid);
+        modal.find('.ride-arrived').data('requestid', rid);
+        modal.find('.ride-picked').data('requestid', rid);
+        modal.find('.ride-dropped').data('requestid', rid);
+    });
+
+    $('.ride-arrived').click(function() {
+        var rid = $(this).data('requestid');
+        socket.emit('ride-arrived', { uid: user, rid: rid }, function(err) {
+            if (!err) {
+                // $('#requests-list div[data-requestid="' + rid + '"]').parent().remove();
+                $('#my-car-modal').modal('toggle');
+            }
+        });
+    });
+
+    $('.ride-picked').click(function() {
+        var rid = $(this).data('requestid');
+        socket.emit('ride-picked', { uid: user, rid: rid }, function(err) {
+            if (!err) {
+                // $('#requests-list div[data-requestid="' + rid + '"]').parent().remove();
+                $('#my-car-modal').modal('toggle');
+            }
+        });
+    });
+
+    $('.ride-dropped').click(function() {
+        var rid = $(this).data('requestid');
+        socket.emit('ride-dropped', { uid: user, rid: rid }, function(err) {
+            if (!err) {
+                $('#my-car div[data-requestid="' + rid + '"]').parent().remove();
+                $('#my-car-modal').modal('toggle');
+            }
+        });
+    });
+
+    $('.ride-accept').click(function() {
+        var rid = $(this).data('requestid');
+        socket.emit('accept-ride', { uid: user, rid: rid }, function(err) {
+            if (!err) {
+                $('#requests-list div[data-requestid="' + rid + '"]').parent().remove();
+                $('#request-modal').modal('toggle');
+            }
+        });
+    });
+});
 </script>
