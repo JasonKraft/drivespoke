@@ -114,6 +114,38 @@ $(document).ready(function() {
         });
     });
 
+    // setInveral(function() {
+    //     socket.emit('get-requests', user, function(message) {
+    //         console.log(message);
+    //
+    //         $.each(message, function(requestidentifier) {
+    //             var request = message[requestidentifier];
+    //             var dateCreated = new Date(request.dateCreated);
+    //             var dateDiff = (new Date) - dateCreated;
+    //             var panelType = 'panel-defult';
+    //             if (dateDiff > 30 * 60000) {
+    //                 panelType = 'panel-danger';
+    //             } else if (dateDiff > 15 * 60000) {
+    //                 panelType = 'panel-warning';
+    //             } else {
+    //                 panelType = 'panel-success';
+    //             }
+    //             var elemString = '<div class="col-md-3">\
+    //             <div data-toggle="modal" data-target="#request-modal" data-address="' + request.address + '" data-requestid="' + request._id + '" class="waitqueue-panel panel ' + panelType + '">\
+    //             <div class="panel-heading">' + request.address + '</div>\
+    //             <div class="panel-body">IMAGE HERE OF MAP</div>\
+    //             <div class="panel-footer">' + request.firstName + " " + request.lastName + '</div>\
+    //             </div>\
+    //             </div>';
+    //             $("#requests-list").append(elemString);
+    //         });
+    //
+    //         // $('.waitqueue-panel').click(function() {
+    //         //     console.log($(this).data('requestid'));
+    //         // });
+    //     });
+    // }, 10000);
+
     socket.emit('get-requests', user, function(message) {
         console.log(message);
         $.each(message, function(requestidentifier) {

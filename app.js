@@ -60,9 +60,9 @@ io.on('connection', function(socket) {
     });
 
     socket.on('ride-arrived', function(data, callback) {
-        // requests.markRideAsAccepted(data.rid, data.uid, function(err) {
-        //     callback();
-        // });
+        requests.notifyPassengerCarHasArrived(data.rid, data.uid, function(err) {
+            callback();
+        });
     });
 
     socket.on('ride-picked', function(data, callback) {
