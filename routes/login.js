@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 /* login request */
 router.post('/', passport.authenticate('local', {
-	successRedirect: '/driver-dashboard',
+	successRedirect: '/',
 	failureRedirect: '/login',
 	//failureFlash: 'Invalid username or password.'
 }));

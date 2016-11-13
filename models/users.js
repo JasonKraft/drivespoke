@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var usersSchema = new Schema ({
 	firstName: String,
@@ -13,7 +14,9 @@ var usersSchema = new Schema ({
 	maxPassengers: Number
 });
 
-mongoose.model('users', usersSchema);
+usersSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model('users', usersSchema);
 
 module.exports.create = function(userData) {
 

@@ -5,36 +5,23 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/drivespoke');
 var fs = require('fs');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-// load all the models
-fs.readdirSync(__dirname + '/models').forEach(function(filename) {
-    if (~filename.indexOf('.js')) { require(__dirname + '/models/' + filename); }
-});
+var Users = require('./models/users');
+var Requests = require('./models/requests');
 
-passport.use(new LocalStrategy(
-    function(username, passpord, done) {
-        mongoose.model('users').findOne({username: username}, function(err, user) {
-            if (err) { return done(err); }
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (!user.valid(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-
-            return done(null, user);
-        });
-    }
-));
+passport.use(new LocalStrategy(Users.authenticate()));
+passport.serializeUser(Users.serializeUser());
+passport.deserializeUser(Users.deserializeUser());
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
-var logout = require('./routes/login');
+//var logout = require('./routes/login');
 var register = require('./routes/register');
 var requests = require('./routes/requests');
 var confirmation = require('./routes/confirmation');
@@ -70,7 +57,7 @@ app.use('/', index);
 app.use('/confirmation', confirmation);
 app.use('/users', users);
 app.use('/login', login);
-app.use('/logout', logout);
+//app.use('/logout', logout);
 app.use('/register', register);
 app.use('/request', requests);
 
