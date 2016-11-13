@@ -1,9 +1,5 @@
 body {
   background-color: #FFFFFF;
-  padding-left: 125px;
-  padding-right: 125px;
-  padding-top: 50px;
-  padding-bottom: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
@@ -11,5 +7,12 @@ a {
 
 #1caead {
   background-color: #1caead; }
+
+.form-group label.control-label {
+  color: #555;
+  font-size: 14px; }
+
+.form-group .form-control {
+  color: rgba(85, 85, 85, 0.6); }
 
 /*# sourceMappingURL=style.css.map */
