@@ -72,8 +72,8 @@ module.exports.create = function(riderData) {
 		lastName: riderData.lastName,
 		phone: riderData.phone,
 		address: riderData.address,
-		groupSize: riderData.groupSize
-		//location: riderData.location,
+		groupSize: riderData.groupSize,
+		location: riderData.location
 	});
 
 	request.save( function(err) {
