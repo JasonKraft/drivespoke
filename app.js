@@ -118,13 +118,17 @@ app.use(function(req, res, next) {
 });
 
 app.post('/sms', function(req, res) {
-  console.log(req.body.Body);
-  // console.log(res);
-  var twilio = require('twilio');
-  var twiml = new twilio.TwimlResponse();
-  twiml.message('The Robots are coming! Head for the hills!');
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
+  console.log(req.body);
+  //user is canceling a ride
+  if (req.body.Body == 'NEVERMIND' || req.body.Body == 'nevermind' || req.body.Body == 'Nevermind') {
+    var twilio = require('twilio');
+    var twiml = new twilio.TwimlResponse();
+    twiml.message('You have just cancelled your ride request.');
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+
+    Requests.delete(req.body.AccountSid);
+  }
 });
 
 // catch 404 and forward to error handler
