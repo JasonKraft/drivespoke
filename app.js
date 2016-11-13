@@ -7,11 +7,29 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/drivespoke');
 var fs = require('fs');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 // load all the models
 fs.readdirSync(__dirname + '/models').forEach(function(filename) {
     if (~filename.indexOf('.js')) { require(__dirname + '/models/' + filename); }
 });
+
+passport.use(new LocalStrategy(
+    function(username, passpord, done) {
+        mongoose.model('users').findOne({username: username}, function(err, user) {
+            if (err) { return done(err); }
+            if (!user) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            if (!user.valid(password)) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+
+            return done(null, user);
+        });
+    }
+));
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -39,6 +57,13 @@ app.use(require('node-sass-middleware')({
   indentedSyntax: true,
   sourceMap: true
 }));
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);

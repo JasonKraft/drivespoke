@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 
 /* navigate to login page */
 router.get('/', function(req, res, next) {
@@ -7,8 +8,10 @@ router.get('/', function(req, res, next) {
 });
 
 /* login request */
-router.post('/', function(req, res, next) {
-
-});
+router.post('/', passport.authenticate('local', {
+	successRedirect: '/driver-dashboard',
+	failureRedirect: '/login',
+	//failureFlash: 'Invalid username or password.'
+}));
 
 module.exports = router;
