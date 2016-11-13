@@ -14,3 +14,15 @@ var usersSchema = new Schema ({
 });
 
 mongoose.model('users', usersSchema);
+
+module.exports.create = function(userData) {
+
+};
+
+module.exports.delete = function(userId) {
+
+};
+
+module.exports.update = function(userData) {
+
+};
