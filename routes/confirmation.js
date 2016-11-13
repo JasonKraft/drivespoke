@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
-var RideRequest = mongoose.model('requests', requestsSchema);
+var request = require('../models/requests');
 
 
 router.post('/', function(req, res, next) {
@@ -20,7 +19,24 @@ router.post('/', function(req, res, next) {
 								google_location: location
 			});
 
-		})*/
+		})
+	*/
+
+
+
+	var riderData = { 
+		firstName: req.body.passenger_name,
+		lastName: req.body.passenger_name,
+		phone: req.body.passenger_phone_num,
+		address: req.body.address,
+		groupSize: req.body.num_passengers
+		//location: location;
+	}
+
+	request.create(riderData);
+
+	console.log(riderData);
+
 
 	res.render('confirmation', {phone_number:req.body.passenger_phone_num, 
 								name:req.body.passenger_name, 
@@ -28,20 +44,6 @@ router.post('/', function(req, res, next) {
 								num_passengers: req.body.num_passengers,
 								//google_location: location
 	});
-
-/*
-	var request = new RideRequest({ 
-		firstName: req.body.passenger_name;
-		lastName: req.body.passenger_name;
-		phone: req.body.passenger_phone_num;
-		address: address;
-		groupSize: req.body.num_passengers;
-		location: location;
-	})
-*/
-	request.save()
-
-
 
 });
 
