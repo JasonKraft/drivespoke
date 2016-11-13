@@ -5,11 +5,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/drivespoke');
+//mongoose.connect('mongodb://localhost/drivespoke');
 var fs = require('fs');
+
+// load all the models
+fs.readdirSync(__dirname + '/models').forEach(function(filename) {
+    if (~filename.indexOf('.js')) { require(__dirname + '/models/' + filename); }
+});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var login = require('./routes/login');
+var logout = require('./routes/login');
+var register = require('./routes/register');
 var requests = require('./routes/requests');
 var confirmation = require('./routes/confirmation');
 
@@ -36,9 +44,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/confirmation', confirmation);
 app.use('/users', users);
-app.use('/login', users);
-app.use('/logout', users);
-app.use('/register', users);
+app.use('/login', login);
+app.use('/logout', logout);
+app.use('/register', register);
 app.use('/request', requests);
 
 // catch 404 and forward to error handler

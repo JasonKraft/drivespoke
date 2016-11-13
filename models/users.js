@@ -13,4 +13,4 @@ var usersSchema = new Schema ({
 	maxPassengers: Number
 });
 
-mongoose.model('users', userSchema);
+mongoose.model('users', usersSchema);
