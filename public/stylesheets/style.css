@@ -8,7 +8,16 @@ a {
 #1caead {
   background-color: #1caead; }
 
+<<<<<<< HEAD
 #requests-list .waitqueue-panel {
   cursor: pointer; }
+=======
+.form-group label.control-label {
+  color: #555;
+  font-size: 14px; }
+
+.form-group .form-control {
+  color: rgba(85, 85, 85, 0.6); }
+>>>>>>> 1d5bbe16b4d553f439b460d9ac14e4c1251d5862
 
 /*# sourceMappingURL=style.css.map */
