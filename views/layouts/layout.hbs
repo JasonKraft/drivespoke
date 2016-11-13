@@ -4,12 +4,17 @@
     <title>{{title}}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="stylesheet/bootstrap/dist/css/bootstrap.min.css">
     <script src="scripts/jquery/dist/jquery.min.js"></script>
     <script src="stylesheets/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="stylesheets/bootstrap-material-design/dist/js/material.min.js"></script>
   </head>
-  <body bgcolor="#98FB98">
-    {{{body}}}
+  <body>
+    {{> header}}
+    <div class="container">
+      {{{body}}}
+    </div>
   </body>
 </html>

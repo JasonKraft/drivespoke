@@ -10,7 +10,8 @@ var usersSchema = new Schema ({
 	carModel: String,
 	carLicensePlate: String,
 	carColor: String,
-	maxPassengers: Number
+	maxPassengers: Number,
+	isOnDuty: {type: Boolean, default: false}
 });
 
 mongoose.model('users', usersSchema);
