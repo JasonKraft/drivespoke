@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var RideRequest = mongoose.model('requests', requestsSchema);
+
 
 router.post('/', function(req, res, next) {
-	
+	/*
 	request('https://maps.googleapis.com/maps/api/geocode/json?address=' + req.body.address +'&key=AIzaSyCe5Owcj0cRZ6QeR8XHsJOIdsTvvpTbuyU',
 		function (error, response, body) {
 			var json_data = JSON.parse(body);
@@ -11,15 +13,36 @@ router.post('/', function(req, res, next) {
 			longitude = JSON.stringify(json_data.results[0].geometry.location.lng);
 			location = "{ lat:" + latitude + ", lng:" + longitude + " }";
 			
-
 			res.render('confirmation', {phone_number:req.body.passenger_phone_num, 
 								name:req.body.passenger_name, 
 								address: req.body.passenger_address, 
 								num_passengers: req.body.num_passengers,
-								google_location: location});
-		})
+								google_location: location
+			});
 
-	
+		})*/
+
+	res.render('confirmation', {phone_number:req.body.passenger_phone_num, 
+								name:req.body.passenger_name, 
+								address: req.body.address, 
+								num_passengers: req.body.num_passengers,
+								//google_location: location
+	});
+
+/*
+	var request = new RideRequest({ 
+		firstName: req.body.passenger_name;
+		lastName: req.body.passenger_name;
+		phone: req.body.passenger_phone_num;
+		address: address;
+		groupSize: req.body.num_passengers;
+		location: location;
+	})
+*/
+	request.save()
+
+
+
 });
 
 module.exports = router;

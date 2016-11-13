@@ -14,13 +14,17 @@ var requestsSchema = new Schema({
 		type: String,
 		required: true
 	},
-	location: {
+	address: {
 		type: String,
 		required: true
 	},
 	groupSize: {
 		type: Number,
 		required: true
+	},
+	location: {
+		type: String,
+		required: false
 	},
 	notes: {
 		type: String,
@@ -53,6 +57,10 @@ var requestsSchema = new Schema({
 	requestCancelled: {
 		type: Boolean,
 		default: false
+	},
+	driverId: {
+		type: Schema.Types.ObjectId,
+		ref: 'users'
 	}
 });
 
