@@ -5,11 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/drivespoke');
-var http = require('http');
+//var http = require('http');
 var twilio = require('twilio');
 mongoose.Promise = global.Promise;
-// mongoose.connect('mongodb://localhost/drivespoke');
 var fs = require('fs');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -32,6 +30,29 @@ var confirmation = require('./routes/confirmation');
 var expressHbs = require('express-handlebars');
 
 var app = express();
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket) {
+    socket.on('join', function(data) {
+        socket.join(data);
+    });
+    socket.on('get-requests', function(data, callback) {
+        //io.sockets.in(data).emit('hello');
+        requests.getAllRequestsInWaitQueue(function(r) {
+            //console.log(r);
+            callback(r);
+        });
+
+    });
+
+    socket.on('accept-ride', function(data, callback) {
+        requests.markRideAsAccepted(data.rid, data.uid, function(err) {
+            callback();
+        });
+    });
+});
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
@@ -67,6 +88,11 @@ app.use('/login', login);
 app.use('/register', register);
 app.use('/request', requests);
 
+app.use(function(req, res, next) {
+    res.io = io;
+    next();
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -85,4 +111,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = {app: app, server: server};;

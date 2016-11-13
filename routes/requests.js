@@ -31,3 +31,19 @@ router.put('/:id', function(req, res, next) {
 })
 
 module.exports = router;
+module.exports.getAllRequestsInWaitQueue = function(callback) {
+	requests.find( { inWaitQueue: true }, function(err, request){
+		callback(request);
+	});
+};
+
+module.exports.markRideAsAccepted = function(rid, uid, callback) {
+	var changes = {
+		inWaitQueue: false,
+		inAcceptedQueue: true,
+		driverId: uid
+	}
+	requests.update(rid, changes);
+
+	callback();
+};

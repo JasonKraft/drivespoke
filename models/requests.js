@@ -125,6 +125,8 @@ module.exports.update = function(riderId, riderData) {
 				request[keys[i]] = riderData[keys[i]];
 			//}
 		}
+
+		riderData.dateLastUpdated = Date.now;
 		request.save(function(err){});
 	});
 }
