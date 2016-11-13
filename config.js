@@ -1,3 +1,4 @@
+var dotenv = require('dotenv').config({path: '.env'});
 var cfg = {};
 var defaultMongoUrl = 'mongodb://localhost/drivespoke';
 
@@ -14,7 +15,7 @@ cfg.secret = process.env.APP_SECRET || 'keyboard cat';
 cfg.twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
 cfg.twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
 
-// A Twilio number you control 
+// A Twilio number you control
 cfg.twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
 // MongoDB connection string - MONGO_URL is for local dev,

@@ -27,18 +27,25 @@ router.post('/', function(req, res, next) {
 			location: location
 		}
 
-		request.create(riderData);
+		request.create(riderData, function(err, record) {
+			if (err) {
+				throw err;
+			}
 
-		console.log(riderData);
-
-
-		res.render('confirmation', {phone_number:req.body.passenger_phone_num,
-									name:req.body.passenger_name,
-									address: req.body.address,
-									num_passengers: req.body.num_passengers,
-									google_location: location
+			record.sendSmsNotification('Your request for a ride has been confirmed!'/*, getCallbackUri(req.headers.host, record)*/);
+			console.log(riderData);
+			res.render('confirmation', {phone_number:req.body.passenger_phone_num,
+										name:req.body.passenger_name,
+										address: req.body.address,
+										num_passengers: req.body.num_passengers,
+										google_location: location
+			});
 		});
 	});
 });
+
+function getCallbackUri (host, record){
+	return `http://${host}/request/${record._id}/`
+};
 
 module.exports = router;

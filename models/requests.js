@@ -66,23 +66,22 @@ var requestsSchema = new Schema({
 	}
 });
 
-requestsSchema.methods.sendSmsNotification = function (message, statusCallback , callback) {
-
+requestsSchema.methods.sendSmsNotification = function (message/*, statusCallback */, callback) {
   var client = new twilio.RestClient(cfg.twilioAccountSid, cfg.twilioAuthToken);
   var self = this;
   var options = {
     to:  self.phone,
     from: cfg.twilioPhoneNumber,
     body: message,
-    statusCallback: statusCallback
+    //statusCallback: statusCallback
   };
 
   client.sendMessage(options, function(err, response) {
     if (err) {
         console.error(err);
     } else {
-      var masked = self.customerPhoneNumber.substr(0,
-        self.customerPhoneNumber.length - 5);
+      var masked = self.phone.substr(0,
+        self.phone.length - 5);
       masked += '*****';
       console.log('Message sent to ' + masked);
     }
@@ -98,7 +97,7 @@ requestsSchema.methods.sendSmsNotification = function (message, statusCallback ,
 
 var rideRequest = module.exports = mongoose.model('requests', requestsSchema);
 
-module.exports.create = function(riderData) {
+module.exports.create = function(riderData, cb) {
 	var request = new rideRequest({
 		firstName: riderData.firstName,
 		lastName: riderData.lastName,
@@ -108,8 +107,8 @@ module.exports.create = function(riderData) {
 		location: riderData.location
 	});
 
-	request.save( function(err) {
-
+	request.save( function(err, record) {
+		cb(err, record);
 	});
 }
 
@@ -129,5 +128,3 @@ module.exports.update = function(riderId, riderData) {
 		request.save(function(err){});
 	});
 }
-
-

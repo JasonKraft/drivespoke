@@ -13,6 +13,12 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.get('/:id', function(req, res, next) {
+	requests.findById(req.params.id, function(err, request) {
+		res.send(request);
+	});
+});
+
 router.delete('/:id', function(req, res, next) {
 	requests.delete(req.params.id);
 	res.send('deleted');
