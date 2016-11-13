@@ -5,8 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/drivespoke');
+// mongoose.connect('mongodb://localhost/drivespoke');
 var fs = require('fs');
+var http = require('http');
+var twilio = require('twilio');
 
 // load all the models
 fs.readdirSync(__dirname + '/models').forEach(function(filename) {
@@ -20,6 +22,7 @@ var logout = require('./routes/login');
 var register = require('./routes/register');
 var requests = require('./routes/requests');
 var confirmation = require('./routes/confirmation');
+
 
 var app = express();
 
