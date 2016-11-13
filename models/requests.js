@@ -130,5 +130,7 @@ module.exports.update = function(riderId, riderData) {
 
 		riderData.dateLastUpdated = Date.now;
 		request.save(function(err){});
+
+		request.sendSmsNotification("Your request for a ride has been accepted! The driver is on their way to you.");
 	});
 }

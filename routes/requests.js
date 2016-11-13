@@ -45,5 +45,8 @@ module.exports.markRideAsAccepted = function(rid, uid, callback) {
 	}
 	requests.update(rid, changes);
 
+	console.log(uid);
+	console.log(rid);
+
 	callback();
 };

@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
 				throw err;
 			}
 
-			record.sendSmsNotification('Your request for a ride has been confirmed!'/*, getCallbackUri(req.headers.host, record)*/);
+			record.sendSmsNotification('Your request for a ride has been confirmed! You will receive another message when a driver confirms your request.'/*, getCallbackUri(req.headers.host, record)*/);
 			console.log(riderData);
 			res.render('confirmation', {phone_number:req.body.phone,
 										name:req.body.firstName + ' ' + req.body.lastName,

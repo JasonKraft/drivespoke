@@ -93,6 +93,16 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.post('/sms', function(req, res) {
+  console.log(req.body.Body);
+  // console.log(res);
+  var twilio = require('twilio');
+  var twiml = new twilio.TwimlResponse();
+  twiml.message('The Robots are coming! Head for the hills!');
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
