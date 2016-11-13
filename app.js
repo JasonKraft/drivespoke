@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/drivespoke');
+mongoose.connect('mongodb://localhost/drivespoke');
 var fs = require('fs');
 
 // load all the models
