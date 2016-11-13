@@ -32,10 +32,16 @@ router.put('/:id', function(req, res, next) {
 
 module.exports = router;
 module.exports.getAllRequestsInWaitQueue = function(callback) {
-	requests.find( { inWaitQueue: true }, function(err, request){
+	requests.find( { inWaitQueue: true, requestCancelled: false }, function(err, request){
 		callback(request);
 	});
 };
+
+module.exports.getAllMyRequests = function(uid, callback) {
+	requests.find({inWaitQueue: false, requestCompleted: false, requestCancelled: false}, function(err, request) {
+		callback(request);
+	});
+}
 
 module.exports.markRideAsAccepted = function(rid, uid, callback) {
 	var changes = {
@@ -47,6 +53,31 @@ module.exports.markRideAsAccepted = function(rid, uid, callback) {
 
 	console.log(uid);
 	console.log(rid);
+
+	callback();
+};
+
+module.exports.markRideAsPickedUp = function(rid, uid, callback) {
+	var changes = {
+		inWaitQueue: false,
+		inAcceptedQueue: false,
+		pickedUp: true,
+		driverId: uid
+	}
+	requests.update(rid, changes);
+
+	callback();
+};
+
+module.exports.markRideAsDroppedOff = function(rid, uid, callback) {
+	var changes = {
+		inWaitQueue: false,
+		inAcceptedQueue: false,
+		pickedUp: false,
+		requestCompleted: true,
+		driverId: uid
+	}
+	requests.update(rid, changes);
 
 	callback();
 };

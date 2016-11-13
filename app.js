@@ -47,8 +47,32 @@ io.on('connection', function(socket) {
 
     });
 
+    socket.on('get-my-requests', function(data, callback) {
+        requests.getAllMyRequests(data, function(r) {
+            callback(r);
+        });
+    });
+
     socket.on('accept-ride', function(data, callback) {
         requests.markRideAsAccepted(data.rid, data.uid, function(err) {
+            callback();
+        });
+    });
+
+    socket.on('ride-arrived', function(data, callback) {
+        // requests.markRideAsAccepted(data.rid, data.uid, function(err) {
+        //     callback();
+        // });
+    });
+
+    socket.on('ride-picked', function(data, callback) {
+        requests.markRideAsPickedUp(data.rid, data.uid, function(err) {
+            callback();
+        });
+    });
+
+    socket.on('ride-dropped', function(data, callback) {
+        requests.markRideAsDroppedOff(data.rid, data.uid, function(err) {
             callback();
         });
     });
